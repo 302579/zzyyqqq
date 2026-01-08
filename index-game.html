@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>端午习俗卡片匹配游戏 - 浙江端午习俗地图</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/game.css">
+  <style>
+    /* jQuery滑动动画相关样式 */
+    .game-rules {
+      background: linear-gradient(135deg, #7CB342 0%, #52A85C 100%);
+      color: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none; /* 初始隐藏 */
+    }
+    
+    .game-rules h3 {
+      margin: 0 0 15px 0;
+      font-size: 20px;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 10px;
+    }
+    
+    .game-rules ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    
+    .game-rules li {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+    
+    .slide-btn {
+      background: #E53E3E;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+      transition: all 0.3s;
+    }
+    
+    .slide-btn:hover {
+      background: #C53030;
+      transform: translateY(-2px);
+    }
+    
+    .game-tips {
+      background: #FFF3CD;
+      border-left: 4px solid #FFC107;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      display: none; /* 初始隐藏 */
+    }
+    
+    .game-tips h4 {
+      margin: 0 0 10px 0;
+      color: #856404;
+    }
+    
+    .game-tips p {
+      margin: 5px 0;
+      color: #856404;
+    }
+    
+    .victory-details {
+      background: #D4EDDA;
+      border: 2px solid #28A745;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      display: none; /* 初始隐藏 */
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <div class="trans">
+      <!-- 顶部导航 -->
+      <div class="menu">
+        <a href="index-home.html">返回首页</a>
+        <a href="index-nav.html">导航页</a>
+        <a href="index-map.html">习俗地图</a>
+        <a href="index-knowledge.html">知识拓展</a>
+        <a href="index-game.html" class="active">卡片游戏</a>
+      </div>
+
+      <!-- 页面标题 -->
+      <h1>🎮 端午习俗卡片匹配游戏</h1>
+
+      <!-- 滑动控制按钮 -->
+      <div style="text-align: center; margin: 15px 0;">
+        <button class="slide-btn" id="toggleRules">📖 游戏规则</button>
+        <button class="slide-btn" id="toggleTips">💡 游戏提示</button>
+        <button class="slide-btn" id="slideDownAll">⬇️ 展开全部</button>
+        <button class="slide-btn" id="slideUpAll">⬆️ 收起全部</button>
+      </div>
+
+      <!-- 游戏规则（使用slideDown/slideUp） -->
+      <div class="game-rules" id="gameRules">
+        <h3>🎯 游戏规则</h3>
+        <ul>
+          <li>🎴 游戏共有16张卡片，包含8对端午习俗图标</li>
+          <li>👆 点击卡片翻开，找到两张相同的图标即可匹配成功</li>
+          <li>⏱️ 系统会记录你的用时和步数</li>
+          <li>⭐ 根据完成时间和步数给出评分</li>
+          <li>🏆 挑战自己，争取获得三星评价！</li>
+        </ul>
+      </div>
+
+      <!-- 游戏提示（使用slideToggle） -->
+      <div class="game-tips" id="gameTips">
+        <h4>💡 游戏小提示</h4>
+        <p>🧠 记住已翻开卡片的位置，提高匹配效率</p>
+        <p>🎯 先从角落的卡片开始，建立记忆地图</p>
+        <p>⚡ 快速完成可以获得更高评分</p>
+        <p>🎊 匹配成功会有精美动画效果</p>
+      </div>
+
+      <!-- 游戏容器 -->
+      <div class="game-container">
+        <!-- 游戏信息栏 -->
+        <div class="game-info">
+          <div class="info-item">
+            <span class="info-label">⏱️ 时间：</span>
+            <span class="info-value" id="timer">00:00</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">🎯 步数：</span>
+            <span class="info-value" id="moves">0</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">✨ 匹配：</span>
+            <span class="info-value" id="matches">0/8</span>
+          </div>
+          <div class="info-item">
+            <button class="restart-btn" id="restartBtn">🔄 重新开始</button>
+          </div>
+        </div>
+
+        <!-- 游戏说明 -->
+        <div class="game-description">
+          <p>💡 点击卡片翻开，找到两张相同的端午习俗卡片即可匹配成功！</p>
+        </div>
+
+        <!-- 卡片网格 -->
+        <div class="cards-grid" id="cardsGrid">
+          <!-- 卡片将由JavaScript动态生成 -->
+        </div>
+      </div>
+
+      <!-- 胜利详情（使用slideDown显示） -->
+      <div class="victory-details" id="victoryDetails">
+        <h3 style="color: #28A745; margin-top: 0;">🎉 恭喜完成游戏！</h3>
+        <p><strong>⏱️ 完成时间：</strong><span id="detailTime">00:00</span></p>
+        <p><strong>🎯 使用步数：</strong><span id="detailMoves">0</span></p>
+        <p><strong>⭐ 游戏评分：</strong><span id="detailRating">★★★</span></p>
+        <p><strong>💬 评价：</strong><span id="detailComment">太棒了！</span></p>
+      </div>
+
+      <!-- 胜利弹窗 -->
+      <div class="victory-modal" id="victoryModal">
+        <div class="victory-content">
+          <div class="victory-icon">🎉</div>
+          <h2>恭喜你完成游戏！</h2>
+          <div class="victory-stats">
+            <p>⏱️ 用时：<span id="finalTime">00:00</span></p>
+            <p>🎯 步数：<span id="finalMoves">0</span></p>
+            <p>⭐ 评分：<span id="rating">★★★</span></p>
+          </div>
+          <div class="victory-message" id="victoryMessage">
+            太棒了！你对端午习俗非常了解！
+          </div>
+          <button class="play-again-btn" id="playAgainBtn">🎮 再玩一次</button>
+        </div>
+      </div>
+
+      <!-- 烟花容器 -->
+      <div class="fireworks-container" id="fireworksContainer"></div>
+    </div>
+  </div>
+
+  <!-- 引入jQuery库 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+  <!-- jQuery滑动动画脚本 -->
+  <script>
+    $(document).ready(function() {
+      // ========== jQuery动画(2) - 滑动动画：slideDown()/slideUp()/slideToggle() ==========
+      
+      // 1. 页面加载时，游戏规则向下滑动显示
+      setTimeout(function() {
+        $('#gameRules').slideDown(800); // 800毫秒滑动动画
+      }, 500);
+      
+      // 2. 切换游戏规则显示/隐藏（slideToggle）
+      $('#toggleRules').click(function() {
+        $('#gameRules').slideToggle(600); // 自动切换滑动状态
+      });
+      
+      // 3. 切换游戏提示显示/隐藏（slideToggle）
+      $('#toggleTips').click(function() {
+        $('#gameTips').slideToggle(600);
+      });
+      
+      // 4. 展开所有信息面板（slideDown）
+      $('#slideDownAll').click(function() {
+        $('#gameRules').slideDown(500);
+        $('#gameTips').slideDown(500);
+        $('#victoryDetails').slideDown(500);
+      });
+      
+      // 5. 收起所有信息面板（slideUp）
+      $('#slideUpAll').click(function() {
+        $('#gameRules').slideUp(500);
+        $('#gameTips').slideUp(500);
+        $('#victoryDetails').slideUp(500);
+      });
+      
+      // 6. 游戏信息栏的滑动效果
+      $('.game-info').hide().slideDown(1000);
+      
+      // 7. 游戏说明的滑动效果
+      $('.game-description').hide().delay(1200).slideDown(600);
+      
+      // 8. 监听游戏完成事件，显示胜利详情（模拟）
+      // 注意：实际游戏逻辑在game.js中，这里只是演示动画
+      $('#restartBtn').click(function() {
+        // 重新开始时，收起胜利详情
+        $('#victoryDetails').slideUp(400);
+      });
+    });
+  </script>
+  
+  <script src="js/game.js"></script>
+</body>
+</html>

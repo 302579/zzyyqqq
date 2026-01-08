@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浙江端午习俗地图-首页</title>
+  <link rel="stylesheet" href="css/main.css" type="text/css">
+  <style>
+    /* jQuery动画相关样式 */
+    .welcome-banner {
+      background: linear-gradient(135deg, #52A85C 0%, #7CB342 100%);
+      color: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none; /* 初始隐藏，用于show()动画 */
+    }
+    
+    .welcome-banner h2 {
+      margin: 0 0 10px 0;
+      font-size: 24px;
+    }
+    
+    .welcome-banner p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+    
+    .toggle-btn {
+      background: #E53E3E;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+      transition: all 0.3s;
+    }
+    
+    .toggle-btn:hover {
+      background: #C53030;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(229, 62, 62, 0.4);
+    }
+    
+    .icon-item {
+      display: none; /* 初始隐藏，用于show()动画 */
+    }
+  </style>
+</head>
+<body>
+  <!-- 主容器 -->
+  <div id="main">
+    <!-- 半透明遮罩层 -->
+    <div class="trans">
+      <!-- 页面标题 -->
+      <h1>浙江端午文化</h1>
+      
+      <!-- 导航菜单 -->
+      <div class="menu">
+        <a href="index-home.html" class="active">返回首页</a>
+      </div>
+      
+      <!-- 欢迎横幅（使用jQuery动画） -->
+      <div class="welcome-banner" id="welcomeBanner">
+        <h2>🎋 欢迎来到浙江端午文化探索之旅</h2>
+        <p>探索浙江各地独特的端午习俗，体验传统文化的魅力</p>
+        <p>通过互动游戏和地图，深入了解端午节的文化内涵</p>
+      </div>
+      
+      <!-- 控制按钮 -->
+      <div style="text-align: center; margin: 20px 0;">
+        <button class="toggle-btn" id="toggleBanner">显示/隐藏欢迎信息</button>
+        <button class="toggle-btn" id="showIcons">显示功能图标</button>
+        <button class="toggle-btn" id="hideIcons">隐藏功能图标</button>
+      </div>
+      
+      <!-- 功能图标网格 -->
+      <div class="icon-grid">
+        <!-- 第一行 -->
+        <div class="icon-row">
+          <a href="index-map.html" class="icon-item bg-blue">
+            <div class="icon">🗺️</div>
+            <div class="text">习俗地图</div>
+          </a>
+          <a href="index-game.html" class="icon-item bg-green">
+            <div class="icon">🎮</div>
+            <div class="text">卡片游戏</div>
+          </a>
+          <a href="index-knowledge.html" class="icon-item bg-yellow">
+            <div class="icon">📖</div>
+            <div class="text">知识拓展</div>
+          </a>
+          <a href="index-profile.html" class="icon-item bg-green-dark">
+            <div class="icon">📞</div>
+            <div class="text">个人中心</div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- 页面说明 -->
+      <div class="description">
+        <p>💡 点击上方图标，探索浙江各地端午习俗文化</p>
+        <p>🎋 体验互动游戏，学习传统文化知识</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 引入jQuery库 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+  <!-- jQuery动画脚本 -->
+  <script>
+    $(document).ready(function() {
+      // ========== jQuery动画(1) - 基本动画：show()/hide() ==========
+      
+      // 1. 页面加载时，欢迎横幅淡入显示（带速度参数）
+      $('#welcomeBanner').show(1000); // 1000毫秒 = 1秒
+      
+      // 2. 功能图标依次显示（回调函数实现连续动画）
+      $('.icon-item').eq(0).show(500, function() {
+        $('.icon-item').eq(1).show(500, function() {
+          $('.icon-item').eq(2).show(500, function() {
+            $('.icon-item').eq(3).show(500);
+          });
+        });
+      });
+      
+      // 3. 切换欢迎横幅显示/隐藏
+      $('#toggleBanner').click(function() {
+        // 使用toggle()方法自动切换显示/隐藏状态
+        $('#welcomeBanner').toggle(800); // 800毫秒动画
+      });
+      
+      // 4. 显示所有功能图标（带速度和回调）
+      $('#showIcons').click(function() {
+        $('.icon-item').show(600, function() {
+          console.log('所有图标已显示');
+        });
+      });
+      
+      // 5. 隐藏所有功能图标（带速度）
+      $('#hideIcons').click(function() {
+        $('.icon-item').hide(600);
+      });
+      
+      // 6. 图标悬停效果（使用hide/show实现闪烁提示）
+      $('.icon-item').hover(
+        function() {
+          // 鼠标进入时，图标文字快速隐藏再显示（吸引注意）
+          $(this).find('.text').hide(100).show(300);
+        }
+      );
+      
+      // 7. 页面说明文字的动画效果
+      $('.description p').each(function(index) {
+        $(this).hide().delay(2000 + index * 300).show(500);
+      });
+    });
+  </script>
+</body>
+</html>

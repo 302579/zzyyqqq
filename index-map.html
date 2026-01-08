@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浙江端午习俗地图-习俗地图</title>
+  <link rel="stylesheet" href="css/main.css" type="text/css">
+  <link rel="stylesheet" href="css/map.css" type="text/css">
+  <style>
+    /* jQuery淡入淡出动画相关样式 */
+    .fade-notice {
+      background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+      color: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none; /* 初始隐藏 */
+    }
+    
+    .fade-notice h3 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+    }
+    
+    .fade-notice p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    
+    .fade-btn {
+      background: #7CB342;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+      transition: all 0.3s;
+    }
+    
+    .fade-btn:hover {
+      background: #52A85C;
+      transform: translateY(-2px);
+    }
+    
+    .region-highlight {
+      background: #FFF3CD;
+      border: 2px solid #FFC107;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+      display: none; /* 初始隐藏 */
+    }
+    
+    .region-highlight h4 {
+      margin: 0 0 10px 0;
+      color: #856404;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <div class="trans">
+      <h1>浙江端午习俗地图-探索各地习俗</h1>
+      
+      <div class="menu">
+        <a href="index-home.html">返回首页</a>
+      </div>
+      
+      <!-- 淡入淡出控制按钮 -->
+      <div style="text-align: center; margin: 15px 0;">
+        <button class="fade-btn" id="toggleNotice">💡 显示/隐藏提示</button>
+        <button class="fade-btn" id="fadeInRegions">✨ 淡入地区</button>
+        <button class="fade-btn" id="fadeOutRegions">🌙 淡出地区</button>
+        <button class="fade-btn" id="fadeToHalf">⚡ 半透明效果</button>
+      </div>
+      
+      <!-- 淡入淡出提示框 -->
+      <div class="fade-notice" id="fadeNotice">
+        <h3>🗺️ 探索浙江端午文化</h3>
+        <p>点击下方地区卡片，了解各地独特的端午习俗</p>
+        <p>每个地区都有其独特的文化传承和民俗特色</p>
+      </div>
+      
+      <!-- 地区亮点信息 -->
+      <div class="region-highlight" id="regionHighlight">
+        <h4>🌟 本月推荐：嘉兴龙舟赛</h4>
+        <p>嘉兴是龙舟竞渡的重要发源地之一，每年端午节都会举办盛大的龙舟比赛。</p>
+        <p>点击"嘉兴"地区，了解更多精彩内容！</p>
+      </div>
+      
+      <!-- 地图区域 -->
+      <div class="map-container">
+        <h2>点击下方地区，了解当地端午习俗</h2>
+        
+        <div class="region-grid">
+          <div class="region-item" data-region="杭州">
+            <div class="region-icon">👑</div>
+            <div class="region-name">杭州</div>
+            <div class="region-desc">西湖之畔的传统习俗</div>
+          </div>
+          
+          <div class="region-item" data-region="嘉兴">
+            <div class="region-icon">🚣</div>
+            <div class="region-name">嘉兴</div>
+            <div class="region-desc">龙舟竞渡的发源地</div>
+          </div>
+          
+          <div class="region-item" data-region="宁波">
+            <div class="region-icon">🫔</div>
+            <div class="region-name">宁波</div>
+            <div class="region-desc">港口城市的独特风情</div>
+          </div>
+          
+          <div class="region-item" data-region="绍兴">
+            <div class="region-icon">🍶</div>
+            <div class="region-name">绍兴</div>
+            <div class="region-desc">黄酒之乡的文化传统</div>
+          </div>
+          
+          <div class="region-item" data-region="台州">
+            <div class="region-icon">🎀</div>
+            <div class="region-name">台州</div>
+            <div class="region-desc">山海之城的民俗特色</div>
+          </div>
+          
+          <div class="region-item" data-region="温州">
+            <div class="region-icon">🐯</div>
+            <div class="region-name">温州</div>
+            <div class="region-desc">瓯越之地的丰富习俗</div>
+          </div>
+        </div>
+        
+        <!-- 轮播控制区域 -->
+        <div class="carousel-controls">
+          <button class="carousel-btn" onclick="prevRegion()" title="上一个地区">◀</button>
+          <button class="autoplay-btn" id="autoplay-btn" onclick="toggleAutoplay()">▶ 开始自动播放</button>
+          <button class="carousel-btn" onclick="nextRegion()" title="下一个地区">▶</button>
+        </div>
+        
+        <!-- 当前地区显示 -->
+        <div class="current-region" id="current-region">当前：未选择</div>
+        
+        <!-- 轮播指示器 -->
+        <div class="carousel-indicators" id="carousel-indicators">
+          <div class="indicator-dot" data-index="0" data-region="杭州" title="杭州" onclick="goToRegion(0)"></div>
+          <div class="indicator-dot" data-index="1" data-region="嘉兴" title="嘉兴" onclick="goToRegion(1)"></div>
+          <div class="indicator-dot" data-index="2" data-region="宁波" title="宁波" onclick="goToRegion(2)"></div>
+          <div class="indicator-dot" data-index="3" data-region="绍兴" title="绍兴" onclick="goToRegion(3)"></div>
+          <div class="indicator-dot" data-index="4" data-region="台州" title="台州" onclick="goToRegion(4)"></div>
+          <div class="indicator-dot" data-index="5" data-region="温州" title="温州" onclick="goToRegion(5)"></div>
+        </div>
+      </div>
+      
+      <!-- 信息展示区域（可拖动，唯一的习俗框） -->
+      <div id="info-box" class="info-box">
+        <div class="info-box-header" id="info-box-header">
+          <h3 id="info-title">地区习俗</h3>
+          <span class="drag-hint">可拖动</span>
+        </div>
+        <div class="info-box-body">
+          <div class="info-content">
+            <p id="info-text"></p>
+            <button onclick="closeInfo()">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 引入jQuery库 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+  <!-- jQuery淡入淡出动画脚本 -->
+  <script>
+    $(document).ready(function() {
+      // ========== jQuery动画(3) - 淡入淡出：fadeIn()/fadeOut()/fadeTo()/fadeToggle() ==========
+      
+      // 1. 页面加载时，提示框淡入显示
+      $('#fadeNotice').fadeIn(1000); // 1000毫秒淡入
+      
+      // 2. 延迟显示地区亮点信息
+      setTimeout(function() {
+        $('#regionHighlight').fadeIn(800);
+      }, 1500);
+      
+      // 3. 地区卡片依次淡入
+      $('.region-item').each(function(index) {
+        $(this).hide().delay(2000 + index * 200).fadeIn(600);
+      });
+      
+      // 4. 切换提示框显示/隐藏（fadeToggle）
+      $('#toggleNotice').click(function() {
+        $('#fadeNotice').fadeToggle(600);
+        $('#regionHighlight').fadeToggle(600);
+      });
+      
+      // 5. 淡入所有地区卡片
+      $('#fadeInRegions').click(function() {
+        $('.region-item').fadeIn(800);
+      });
+      
+      // 6. 淡出所有地区卡片
+      $('#fadeOutRegions').click(function() {
+        $('.region-item').fadeOut(800);
+      });
+      
+      // 7. 调整地区卡片透明度（fadeTo）
+      $('#fadeToHalf').click(function() {
+        // fadeTo(速度, 目标透明度, 回调函数)
+        $('.region-item').fadeTo(600, 0.4, function() {
+          // 动画完成后，再恢复到完全不透明
+          setTimeout(function() {
+            $('.region-item').fadeTo(600, 1.0);
+          }, 1000);
+        });
+      });
+      
+      // 8. 地区卡片点击事件 - 使用原有的showRegionInfo函数，添加淡入效果
+      $('.region-item').click(function() {
+        const regionName = $(this).data('region');
+        
+        // 调用原有的showRegionInfo函数
+        if (typeof showRegionInfo === 'function') {
+          showRegionInfo(regionName);
+          
+          // 为info-box添加淡入效果
+          $('#info-box').hide().fadeIn(600);
+        }
+      });
+      
+      // 9. 地区卡片悬停效果（淡入淡出）
+      $('.region-item').hover(
+        function() {
+          // 鼠标进入：图标淡出再淡入（吸引注意）
+          $(this).find('.region-icon').fadeOut(200).fadeIn(400);
+        }
+      );
+      
+      // 10. 轮播指示器淡入
+      $('.carousel-indicators').hide().delay(3000).fadeIn(800);
+      
+      // 11. 控制按钮淡入
+      $('.carousel-controls').hide().delay(3500).fadeIn(800);
+    });
+  </script>
+  
+  <script src="js/map.js"></script>
+</body>
+</html>

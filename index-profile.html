@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人中心 - 浙江端午习俗地图</title>
+  <link rel="stylesheet" href="css/main.css" type="text/css">
+  <style>
+    .profile-container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    
+    .profile-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .profile-header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 2px solid #7CB342;
+      margin-bottom: 30px;
+    }
+    
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #52A85C 0%, #7CB342 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin: 0 auto 15px;
+    }
+    
+    .profile-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin: 10px 0;
+    }
+    
+    .profile-desc {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .profile-section {
+      margin: 25px 0;
+    }
+    
+    .profile-section h3 {
+      color: #52A85C;
+      font-size: 18px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #E8F5E9;
+    }
+    
+    .profile-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .profile-item:last-child {
+      border-bottom: none;
+    }
+    
+    .profile-label {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .profile-value {
+      color: #333;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 32px;
+      font-weight: bold;
+      color: #52A85C;
+      margin: 10px 0;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .action-btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .btn-primary {
+      background: #52A85C;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #7CB342;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(82, 168, 92, 0.4);
+    }
+    
+    .btn-secondary {
+      background: #E53E3E;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #C53030;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(229, 62, 62, 0.4);
+    }
+    
+    .achievement-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .achievement-item {
+      background: #FFF3CD;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      border: 2px solid #FFC107;
+    }
+    
+    .achievement-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+    
+    .achievement-name {
+      font-size: 12px;
+      color: #856404;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <div class="trans">
+      <h1>个人中心</h1>
+      
+      <div class="menu">
+        <a href="index-home.html">返回首页</a>
+        <a href="index-map.html">习俗地图</a>
+        <a href="index-game.html">卡片游戏</a>
+        <a href="index-knowledge.html">知识拓展</a>
+      </div>
+      
+      <div class="profile-container">
+        <!-- 个人信息卡片 -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-name">端午文化探索者</div>
+            <div class="profile-desc">浙江端午习俗学习爱好者</div>
+          </div>
+          
+          <!-- 学习统计 -->
+          <div class="profile-section">
+            <h3>📊 学习统计</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">已探索地区</div>
+                <div class="stat-number">6</div>
+                <div class="stat-label">个</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">游戏次数</div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">次</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">学习时长</div>
+                <div class="stat-number">2.5</div>
+                <div class="stat-label">小时</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">知识点数</div>
+                <div class="stat-number">18</div>
+                <div class="stat-label">个</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 个人信息 -->
+          <div class="profile-section">
+            <h3>👤 个人信息</h3>
+            <div class="profile-item">
+              <span class="profile-label">用户名</span>
+              <span class="profile-value">端午文化探索者</span>
+            </div>
+            <div class="profile-item">
+              <span class="profile-label">注册时间</span>
+              <span class="profile-value">2025-01-08</span>
+            </div>
+            <div class="profile-item">
+              <span class="profile-label">最近访问</span>
+              <span class="profile-value">今天</span>
+            </div>
+            <div class="profile-item">
+              <span class="profile-label">学习等级</span>
+              <span class="profile-value">初级探索者 Lv.3</span>
+            </div>
+          </div>
+          
+          <!-- 成就徽章 -->
+          <div class="profile-section">
+            <h3>🏆 成就徽章</h3>
+            <div class="achievement-list">
+              <div class="achievement-item">
+                <div class="achievement-icon">🎯</div>
+                <div class="achievement-name">首次探索</div>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon">🎮</div>
+                <div class="achievement-name">游戏达人</div>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon">📖</div>
+                <div class="achievement-name">知识学者</div>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon">🗺️</div>
+                <div class="achievement-name">地图探险家</div>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon">⭐</div>
+                <div class="achievement-name">三星玩家</div>
+              </div>
+              <div class="achievement-item">
+                <div class="achievement-icon">🎋</div>
+                <div class="achievement-name">端午达人</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 操作按钮 -->
+          <div class="action-buttons">
+            <a href="index-map.html" class="action-btn btn-primary">继续探索</a>
+            <a href="index-game.html" class="action-btn btn-primary">开始游戏</a>
+            <a href="index-home.html" class="action-btn btn-secondary">返回首页</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
